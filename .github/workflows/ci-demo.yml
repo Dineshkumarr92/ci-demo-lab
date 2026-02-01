@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
-
   workflow_dispatch:
     inputs:
       reason:
@@ -36,43 +34,18 @@ jobs:
       - name: Display Runner Environment Details
         run: |
           echo "===== Runner Info ====="
-          echo "OS:          $(cat /etc/os-release | grep PRETTY_NAME)"
-          echo "Shell:       $SHELL"
+          uname -a
+          echo "Shell: $SHELL"
           echo "Working Dir: $(pwd)"
-          echo "User:        $(whoami)"
+          echo "User: $(whoami)"
           echo "========================"
 
-      - name: Show Manual Trigger Reason (if applicable)
+      - name: Show Manual Trigger Reason
+        env:
+          REASON: ${{ github.event.inputs.reason }}
         run: |
-          if [ -n "${{ github.event.inputs.reason }}" ]; then
-            echo "Manual trigger reason: ${{ github.event.inputs.reason }}"
+          if [ -n "$REASON" ]; then
+            echo "Manual trigger reason: $REASON"
           else
-            echo "This run was triggered automatically (not manual)."
+            echo "This run was triggered automatically."
           fi
-```
-
-4. Scroll down → under **"Commit changes"**:
-   - Commit message: `Add CI demo GitHub Actions workflow`
-   - Make sure **"Commit directly to the `main` branch"** is selected
-5. Click **"Commit changes"**
-
-> ✅ **Trigger 1 (push) fires automatically right now.** Go check the Actions tab!
-
----
-
-## Step 3: Verify the Push Trigger Worked
-
-1. Click the **Actions** tab in your repo
-2. You should see **"CI Demo Workflow"** running or completed
-3. Click on it → click the **build** job → expand each step and read the logs
-
-> ✅ **Trigger 1 (push) — DONE ✔️**
-
----
-
-## Step 4: Test the Pull Request Trigger
-
-1. Go back to your repo's **Code** tab
-2. Click the **branch dropdown** (says `main`) → type a new branch name:
-```
-feature-test
