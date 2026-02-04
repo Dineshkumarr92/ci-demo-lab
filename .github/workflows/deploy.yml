@@ -39,11 +39,11 @@ jobs:
 
       - name: Run deployment script
         run: |
-          echo ==========================================
-          echo Deployment started at %date% %time%
-          echo ==========================================
-          echo Deploying application...
-          timeout /t 2 /nobreak
-          echo ✅ Application deployed successfully!
-          echo ==========================================
-        shell: cmd
+          Write-Host "=========================================="
+          Write-Host "Deployment started at $(Get-Date)"
+          Write-Host "=========================================="
+          Write-Host "Deploying application..."
+          Start-Sleep -Seconds 2
+          Write-Host "✅ Application deployed successfully!"
+          Write-Host "=========================================="
+        shell: pwsh
