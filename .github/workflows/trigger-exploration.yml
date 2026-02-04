@@ -1,0 +1,33 @@
+name: Trigger Exploration
+
+on:
+  # Trigger 1: On Push to main
+  push:
+    branches:
+      - main
+  
+  # Trigger 2: Manual Trigger
+  workflow_dispatch:
+
+  # Trigger 3: Schedule (Runs at 00:00 UTC every day)
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  identify-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Detect Trigger Source
+        run: |
+          echo "This workflow was triggered by: ${{ github.event_name }}"
+
+      - name: Conditional Logic based on Trigger
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "This step only runs because you clicked the manual button!"
+
+      - name: Conditional Logic for Push
+        if: github.event_name == 'push'
+        run: echo "This step only runs on code push!"
