@@ -1,0 +1,40 @@
+name: Deploy Application
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create artifact
+        run: |
+          echo "Build artifact created at $(date)" > build-output.txt
+          echo "Version: 1.0.0" >> build-output.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: build-output.txt
+
+  deploy:
+    needs: build
+    runs-on: [self-hosted, deploy]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+
+      - name: Show artifact contents
+        run: cat build-output.txt
+
+      - name: Run deployment script
+        run: bash deploy.sh
