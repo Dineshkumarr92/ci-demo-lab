@@ -46,4 +46,4 @@ jobs:
           Start-Sleep -Seconds 2
           Write-Host "✅ Application deployed successfully!"
           Write-Host "=========================================="
-        shell: pwsh
+        shell: powershell
