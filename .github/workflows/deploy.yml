@@ -43,7 +43,7 @@ jobs:
           echo Deployment started at %date% %time%
           echo ==========================================
           echo Deploying application...
-          timeout /t 2 /nobreak >nul
+          timeout /t 2 /nobreak
           echo ✅ Application deployed successfully!
           echo ==========================================
         shell: cmd
