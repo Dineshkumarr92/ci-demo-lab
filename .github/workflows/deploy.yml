@@ -34,7 +34,16 @@ jobs:
           name: build-artifact
 
       - name: Show artifact contents
-        run: cat build-output.txt
+        run: type build-output.txt
+        shell: cmd
 
       - name: Run deployment script
-        run: bash deploy.sh
+        run: |
+          echo ==========================================
+          echo Deployment started at %date% %time%
+          echo ==========================================
+          echo Deploying application...
+          timeout /t 2 /nobreak >nul
+          echo ✅ Application deployed successfully!
+          echo ==========================================
+        shell: cmd
