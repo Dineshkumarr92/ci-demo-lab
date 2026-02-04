@@ -1,0 +1,47 @@
+name: Reusable CI Workflow
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: 'Node.js version to use'
+        required: false
+        default: '18'
+        type: string
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm init -y
+          npm install express
+          echo "✅ Dependencies installed"
+
+      - name: Show installed packages
+        run: npm list
+```
+
+**5.** Commit message: `Add reusable CI workflow`
+
+**6.** Commit to `main`
+
+---
+
+## File 2: Create caller.yml
+
+**1.** Click **Add file** → **New file** again
+
+**2.** Filename:
+```
+.github/workflows/caller.yml
