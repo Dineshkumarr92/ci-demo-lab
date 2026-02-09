@@ -34,16 +34,3 @@ jobs:
 
       - name: Run tests
         run: npm test
-```
-
-**4.** Commit to `main`
-
----
-
-# Q.2: Pull Request Workflow
-
-**1.** **Add file** → **New file**
-
-**2.** Filename:
-```
-.github/workflows/pr-check.yml
