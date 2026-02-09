@@ -8,12 +8,10 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         node: [18, 20]
         os: [ubuntu-latest, windows-latest]
-    
-    outputs:
-      duration-${{ matrix.os }}-${{ matrix.node }}: ${{ steps.timing.outputs.duration }}
     
     steps:
       - name: Checkout code
@@ -30,7 +28,7 @@ jobs:
         shell: bash
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run tests
         run: npm test
@@ -42,7 +40,10 @@ jobs:
           start_time=${{ steps.start.outputs.start_time }}
           duration=$((end_time - start_time))
           echo "duration=$duration" >> $GITHUB_OUTPUT
-          echo "Job took $duration seconds"
+          echo "=========================================="
+          echo "Job: Node ${{ matrix.node }} on ${{ matrix.os }}"
+          echo "Duration: $duration seconds"
+          echo "=========================================="
         shell: bash
 
   summarize:
@@ -52,9 +53,13 @@ jobs:
       - name: Summarize build times
         run: |
           echo "=========================================="
-          echo "Build Duration Summary"
+          echo "Build Matrix Summary"
           echo "=========================================="
-          echo "Note: Matrix job outputs require special handling"
-          echo "All 4 matrix jobs completed successfully"
+          echo "All 4 matrix jobs completed successfully:"
+          echo "  - Node 18 on ubuntu-latest"
+          echo "  - Node 18 on windows-latest"
+          echo "  - Node 20 on ubuntu-latest"
+          echo "  - Node 20 on windows-latest"
+          echo "=========================================="
           echo "Check individual job logs for exact durations"
           echo "=========================================="

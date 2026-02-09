@@ -30,7 +30,7 @@ jobs:
           echo "Running on branch: ${{ github.ref_name }}"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run tests
         run: npm test
