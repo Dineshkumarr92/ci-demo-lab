@@ -1,0 +1,49 @@
+name: Feature Branch CI
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+    paths:
+      - 'app/**'
+      - '!**/*.md'
+      - '!docs/**'
+
+env:
+  NODE_ENV: ci
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Show environment
+        run: |
+          echo "NODE_ENV is set to: $NODE_ENV"
+          echo "Running on branch: ${{ github.ref_name }}"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+```
+
+**4.** Commit to `main`
+
+---
+
+# Q.2: Pull Request Workflow
+
+**1.** **Add file** → **New file**
+
+**2.** Filename:
+```
+.github/workflows/pr-check.yml
