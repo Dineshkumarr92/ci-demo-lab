@@ -1,2 +1,1 @@
-# ci-demo-lab
-Hands-on lab for GitHub Actions
+Trigger PR Tests workflow
