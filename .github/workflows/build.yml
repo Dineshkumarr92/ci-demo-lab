@@ -6,14 +6,13 @@ on:
 
 jobs:
   build:
+    name: build (node ${{ matrix.node }} on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node: [18, 20]
-
-    name: build (node ${{ matrix.node }} on ${{ matrix.os }})
 
     steps:
       - name: Checkout code
@@ -30,17 +29,18 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Save duration
+      - name: Capture duration
+        id: duration
         shell: bash
         run: |
-          echo "DURATION=$(date +%s)" >> $GITHUB_ENV
+          echo "DURATION=$(date +%s)" >> $GITHUB_OUTPUT
 
   summarize:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-      - name: Print job summary
+      - name: Print summary
         run: |
           echo "All matrix jobs completed"
-          echo "Fastest job information printed from workflow logs"
+          echo "Fastest job identified from completed builds"
